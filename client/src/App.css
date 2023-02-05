@@ -1,2 +1,9 @@
 
 @import "../node_modules/bootstrap/";
+
+body{
+    /* background-image: url("https://thumbs.dreamstime.com/b/e-commerce-concept-minimal-design-32329830.jpg");
+    background-repeat: no-repeat;
+    background-size: cover; */
+    background-color: #f6f6ff !important;
+}
