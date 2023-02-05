@@ -12,81 +12,110 @@ const Product = () => {
   const params = new useParams();
   const id = params.id;
   const navigate = useNavigate();
-  const {showAlert} = useContext(alertContext);
+  const { showAlert } = useContext(alertContext);
   const [product, setProduct] = useState(null);
-  const [contacts,setContacts] = useState(null);
+  const [contacts, setContacts] = useState(null);
   const getProduct = async () => {
     let data;
-    try{
+    try {
       data = await axios.get(`${SERVER_URL}/product/getProduct/${id}`);
-      console.log('data',data.data[0][0]);
+      console.log('data', data.data[0][0]);
       const c = data.data[0][0].userId
       setProduct(data.data[0][0]);
       const data2 = await axios.get(`${SERVER_URL}/user/getuser/${c}`);
-      console.log('data2',data.data[0][0]);
+      console.log('data2', data.data[0][0]);
       setContacts(data2.data[0][0]);
-    }catch(err){
-      showAlert(data.data.err,"danger");
+    } catch (err) {
+      showAlert(data.data.err, "danger");
     }
   }
 
   const deleteProduct = async () => {
     let res;
-    try{
+    try {
       res = await axios.delete(`${SERVER_URL}/product/deleteproduct/${product.productId}`);
       navigate('/');
-    }catch(err){
-      showAlert("Something went wrong!","danger");
+    } catch (err) {
+      showAlert("Something went wrong!", "danger");
     }
   }
-  
+
   useEffect(() => {
-    const u=localStorage.getItem("username");
-    if(!u){
+    const u = localStorage.getItem("username");
+    if (!u) {
       navigate('/login')
     }
   }, [])
-  const [userId,setUserId] = useState(null);
+  const [userId, setUserId] = useState(null);
   useEffect(() => {
     const u = localStorage.getItem("userId");
-    if(u){
+    if (u) {
       setUserId(u);
     }
     getProduct();
   }, []);
   return (
     <>
-    <Navbar />
-    {product && <div className="product-container container">
-      <Helmet>
-        <title>Product - NITC</title>
-      </Helmet>
-      <div className="row p-5">
-        <div className="col-lg-5">
-          <img
-            src={"https://drive.google.com/uc?expert=view&id="+product.imageId}
-            alt={product.productName}
-            className="img-fluid rounded"
-            style={{ width: "30rem", objectFit: "contain" }}
-          />
-        </div>
-        <div className="col-lg-7">
-          <div className="row">
-            <h3 className="text-center pt-4 pt-lg-1 pb-1">{product.productName}</h3>
-            <div></div>
-            <p>Price: {product.productPrice}</p>
-            <p>Description: {product.productDescription}</p>
-            {contacts && 
-            <div>
-              <p>Mobile No: {contacts.mobileNo}</p>
-              <p>EMail: {contacts.mail}</p>
-            </div>}
-            {userId==product.userId && <button className="btn btn-danger" onClick={deleteProduct} style={{width:"100px"}}>Delete</button>}
+      <Navbar />
+      {product && <div className="product-container container">
+        <Helmet>
+          <title>Product - NITC</title>
+        </Helmet>
+        <div className="row p-5">
+          <div className="col-lg-5">
+            <img
+              src={"https://drive.google.com/uc?expert=view&id=" + product.imageId}
+              alt={product.productName}
+              className="img-fluid rounded"
+              style={{ width: "30rem", objectFit: "contain" }}
+            />
+          </div>
+          <div className="col-lg-7">
+            <div className="product-details">
+              <h3 className="text-center pt-4 pt-lg-1 pb-1">{product.productName}</h3>
+              <div className=" row">
+                <div className="col col-md-2 text-center text-md-end">
+                  Price:
+                </div>
+                <div className="col col-md-10">
+                  {product.productPrice}
+                </div>
+              </div>
+              <div className=" row">
+                <div className="col col-md-2 text-center text-md-end">
+                  Description:
+                </div>
+                <div className="col col-md-10">
+                  {product.productDescription}
+                </div>
+              </div>
+              {contacts &&
+                <>
+                  <div className=" row">
+                    <div className="col col-md-2 text-center text-md-end">
+                      Mobile No:
+                    </div>
+                    <div className="col col-md-10">
+                      {contacts.mobileNo}
+                    </div>
+                  </div>
+                  <div className=" row">
+                    <div className="col col-md-2 text-center text-md-end">
+                      Email:
+                    </div>
+                    <div className="col col-md-10">
+                      {contacts.mail}
+                    </div>
+                  </div>
+                </>
+              }
+              {userId == product.userId && <button className="btn btn-danger mt-3 col-md-10" onClick={deleteProduct} style={{ width: "100px" }}>Delete</button>}
+
+            </div>
           </div>
         </div>
-      </div>
-    </div>}
-    <Footer />
+      </div>}
+      <Footer />
     </>
   );
 };
