@@ -24,11 +24,9 @@ const Navbar = () => {
     window.location.reload(true);
   }
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid px-5">
-        <a className="navbar-brand" href="#">
-          NitCsell
-        </a>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -40,6 +38,9 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+        <a className="navbar-brand" href="#">
+          NitCsell
+        </a>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <NavLink className="nav-link" aria-current="page" to="/">
@@ -50,7 +51,7 @@ const Navbar = () => {
             </NavLink>
           </div>
         </div>
-        
+
 
         {
           username &&
