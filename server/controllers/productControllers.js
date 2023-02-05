@@ -19,7 +19,6 @@ const { InitFileUpload } = require('../file_upload');
 const fileUpload = InitFileUpload();
 exports.postProduct = async (req,res) => {
     let {productname, productprice, userid, productdescription, imageid} = req.body;
-    console.log(req.body)
     const file = req.file.path;
     const name = req.file.filename;
     const mimeType = req.file.mimetype;
@@ -41,7 +40,6 @@ exports.getProduct = (req,res) => {
     const {productId} = req;
     console.log(productId);
     let sql = `SELECT * FROM products WHERE productId = ${productId};`;
-
     db.execute(sql)
     .then((r)=>{
         res.json(r);
